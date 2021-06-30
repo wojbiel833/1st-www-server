@@ -1,0 +1,10 @@
+{
+  "name": "1st-www-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "wojbiel833 <wojbiel833@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}
