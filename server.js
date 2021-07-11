@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const hbs = require("express-handlebars");
+const multer = require("multer");
 
 const app = express();
 
@@ -34,14 +35,6 @@ app.get("/history", (req, res) => {
   res.render("history");
 });
 
-app.get("/user/settings", (req, res) => {
-  res.render("login");
-});
-
-app.get("/user/panel", (req, res) => {
-  res.render("login");
-});
-
 app.get("/hello/:name", (req, res) => {
   res.render("hello", { name: req.params.name });
 });
@@ -54,6 +47,11 @@ app.post("/contact/send-message", (req, res) => {
   } else {
     res.render("contact", { isError: true });
   }
+});
+
+app.use("/user", (req, res, next) => {
+  res.send("This site is only for users, please log in!");
+  next();
 });
 
 app.use((req, res) => {
