@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const hbs = require("express-handlebars");
 const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const app = express();
 
@@ -35,23 +36,27 @@ app.get("/history", (req, res) => {
   res.render("history");
 });
 
+app.get("/user/settings", (req, res) => {
+  res.render("login");
+});
+
+app.get("/user/panel", (req, res) => {
+  res.render("login");
+});
+
 app.get("/hello/:name", (req, res) => {
   res.render("hello", { name: req.params.name });
 });
 
-app.post("/contact/send-message", (req, res) => {
-  const { author, sender, title, message, file } = req.body;
+app.post("/contact/send-message", upload.single("image"), (req, res) => {
+  const { author, sender, title, message } = req.body;
+  const file = req.file;
 
   if (author && sender && title && message && file) {
-    res.render("contact", { isSent: true });
+    res.render("contact", { isSent: true, filename: file.originalname });
   } else {
     res.render("contact", { isError: true });
   }
-});
-
-app.use("/user", (req, res, next) => {
-  res.send("This site is only for users, please log in!");
-  next();
 });
 
 app.use((req, res) => {
